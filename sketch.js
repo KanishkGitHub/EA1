@@ -1,61 +1,65 @@
 const Engine = Matter.Engine;
-const Render = Matter.Render;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
-const Body = Matter.Body;
-const Composites = Matter.Composites;
-const Composite = Matter.Composite;
 
-let engine;
-let world;
-var ball;
-var blower;
-var blowerMouth;
-var button;
+var engine, world;
+var canvas;
+var palyer, playerBase;
+var computer, computerBase;
+
 
 function setup() {
-  var canvas = createCanvas(500, 500);
+  canvas = createCanvas(windowWidth, windowHeight);
 
   engine = Engine.create();
   world = engine.world;
 
-  ball = new Ball(width / 2 + 80, height / 2 - 80, 80, 80);
-  blower = new Blower(width / 2 - 50, height / 2 + 50, 150, 20);
-  blowerMouth = new BlowerMouth(width / 2 + 70, height / 2 + 20, 100, 90);
-  button = createImg('click.png');
-button.position(20,30);
-button.size(50,50);
+  playerBase = new PlayerBase(300, random(450, height - 300), 180, 150);
+//create a player object from the Player class.
+player = new Player(250, playerBase.body.position.y - 150, 50, 180);
+player = new Player(
+  340,
+  playerBase.body.position.y - 180,
+  120,
+  120
+);
 
 
-// buttonmouseClicked(blow);
+  computerBase = new ComputerBase(
+    width - 300,
+    random(450, height - 300),
+    180,
+    150
+  );
+  computer = new Computer(
+    width - 280,
+    computerBase.body.position.y - 153,
+    50,
+    180
+  );
 
- button.mouseClicked(blow);
-
-// button.Clicked(blow);
-
-// button.mouse(blow);
-
-
+  
 }
 
 function draw() {
-  background(59);
+  background(189);
+
   Engine.update(engine);
 
-  blower.show();
-  ball.show();
-  blowerMouth.show();
-}
+  // Title
+  fill("#FFFF");
+  textAlign("center");
+  textSize(40);
+  text("EPIC ARCHERY", width / 2, 100);
 
-function blow() {
+ 
+  playerBase.display();
+//call the display() function for the player object.
   
-  // Matter.Body.applyForce(ball.body, { x: 0, y: 0 }, { x: 0, y: -0.05 });
-  
-  // Matter.Body.applyForce(ball.body, { x: 0, y: 0 }, { x: 0.05, y: 0.05 });
-  
-  Matter.Body.applyForce(ball.body, { x: 0, y: 0 }, { x: 0, y: 0.05 });
-  
-  // Matter.Body.applyForce(ball.body, { x: 0, y: 0 }, { x: -0.05, y: 0.05 });
+
+  computerBase.display();
+  computer.display();
+  player.display();
 
 }
